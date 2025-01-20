@@ -1,53 +1,92 @@
-"use client";
-import { useEffect, useState } from "react";
+'use client';
 
-/*
-  Welcome to the simplegamehosting coding assignment!
+import GameServerCard from "@/components/GameServerCard";
 
-  if you got this far great job! 🎉
-  Now it's your turn to shine! 🌟
-  
-  The mock data is fetched from the server and displayed on the page.
+const servers = [
+  {
+    id: 1,
+    name: "Survival Paradise",
+    game: "Minecraft",
+    players: "12/20",
+    status: "online", // Explicitly use "online"
+    version: "1.20.1",
+    type: "Survival",
+    region: "North America",
+    mods: ["Essentials", "Dynmap", "GriefPrevention"],
+  },
+  {
+    id: 2,
+    name: "Creative Builders Hub",
+    game: "Minecraft",
+    players: "8/50",
+    status: "online", // Explicitly use "online"
+    version: "1.19",
+    type: "Creative",
+    region: "Europe",
+    mods: ["WorldEdit", "VoxelSniper"],
+  },
+  {
+    id: 3,
+    name: "Hardcore Arena",
+    game: "Minecraft",
+    players: "3/10",
+    status: "offline", // Explicitly use "offline"
+    version: "1.20",
+    type: "Hardcore",
+    region: "Asia",
+    mods: ["NoCheatPlus", "Anti-Xray"],
+  },
+  {
+    id: 4,
+    name: "Pixelmon Adventures",
+    game: "Minecraft",
+    players: "15/30",
+    status: "online", // Explicitly use "online"
+    version: "1.16.5",
+    type: "Modded",
+    region: "South America",
+    mods: ["Pixelmon Mod", "JourneyMap"],
+  },
+  {
+    "id": 5,
+    "name": "Zombie Survival",
+    "game": "Minecraft",
+    "players": "24/50",
+    "status": "online",
+    "version": "1.18",
+    "type": "Survival",
+    "region": "Europe",
+    "mods": ["ZombieApocalypse", "ToughAsNails"]
+  },
+  {
+    "id": 6,
+    "name": "Skyblock Legends",
+    "game": "Minecraft",
+    "players": "18/40",
+    "status": "online",
+    "version": "1.17",
+    "type": "Skyblock",
+    "region": "North America",
+    "mods": ["SkyblockCore", "IslandManager"]
+  },
+];
 
-  Your task is to create a dynamic card component for each server in the list.
-  - The card should display the server's name, game, players, status, version etc, bonus points for displaying any extra data from the json response.
-  - please use tailwind to style your components, you can use the existing styles in this file as a reference.
-  - You can also use any other libraries you like to help you build the UI.
-  
-  for extra info please read the README.md file in the root of the project.
-*/
-
-export default function Home() {
-  const [serverData, setServerData] = useState(null);
-  // you can update this fetching code if required but it's not necessary for the assignment.
-  useEffect(() => {
-    const fetchServerData = async () => {
-      try {
-        const response = await fetch("/api/mock");
-        const data = await response.json();
-        setServerData(data);
-      } catch (error) {
-        console.error("Failed to fetch server data:", error);
-      }
-    };
-
-    fetchServerData();
-  }, []);
-
+export default function Page() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      {/* main can be deleted and replaced with your own cards */}
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1 className="text-2xl font-bold">Minecraft Server List</h1>
-        <p className="text-gray-600">
-          Below is the JSON data fetched from <code>/api/mock</code>. Use it to
-          build the UI.
-        </p>
-        <pre className="bg-gray-200 text-gray-800 p-4 rounded-lg w-full overflow-auto max-w-4xl text-sm">
-          {serverData ? JSON.stringify(serverData, null, 2) : "Loading data..."}
-        </pre>
-      </main>
-      {/* main can be deleted and replaced with your own cards */}
+    <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {servers.map((server) => (
+        <GameServerCard
+          key={server.id}
+          name={server.name}
+          game={server.game}
+          players={server.players}
+          status={server.status as "online" | "offline"} // Explicitly cast if needed
+          version={server.version}
+          type={server.type}
+          region={server.region}
+          mods={server.mods}
+        />
+      ))}
     </div>
   );
 }
